@@ -1,2 +1,72 @@
-# atlas
-Atlas is a conceptual launcher and infrastructure index for Windows that maps meaning to filesystem resources, enabling fast access without relying on paths, shortcuts, or filesystem memory.
+# Atlas
+
+> <svg 
+	data-component="Octicon" 
+	aria-hidden="true" 
+	focusable="false" 
+	class="octicon octicon-book" 
+	viewBox="0 0 16 16" 
+	width="16" 
+	height="16" 
+	fill="currentColor" 
+	display="inline-block" 
+	overflow="visible" 
+	style="vertical-align:text-bottom">
+	<path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z">
+	</path>
+</svg> &nbsp;**[Solution Overview](../../wiki/Solution-Overview-NEW)**
+
+A local, read-only tool that scans your folders and gives you one honest, sortable view of everything in them — including the files you've forgotten exist.
+No auto-cleanup. No silent moves or deletes. Atlas only looks; you decide what to do.
+
+
+## Why?
+
+Files pile up across Desktop, Downloads, and random project folders with no consistent structure, and there's no easy way to see what's actually there without opening every folder manually. Atlas builds a single index across the folders you choose and sorts it by a "likely forgotten" heuristic (age + size) so the old, unused stuff actually surfaces instead of hiding in plain sight.
+
+## What it does?
+
+- Recursively scans one or more folders you choose
+- Captures metadata only — path, size, extension, modified date (no file contents are read)
+- Indexes everything into a local SQLite database
+- Filters out system junk, caches, and temp files via a configurable exclusion list
+- Sorts by likely-forgotten (oldest modified + size) so neglected files rise to the top
+- Never modifies, moves, or deletes anything on your filesystem
+
+## What it deliberately doesn't do (yet)?
+
+- No duplicate detection by default — content hashing is a planned on-demand feature, not a core scan step
+- No "last opened" tracking — Windows doesn't reliably expose this, so Atlas doesn't pretend to know it
+- No automatic file actions (archive/delete) — read-only in this phase, by design
+- No background/scheduled scanning or real-time file watching
+
+## Status
+
+**Proof of concept validated.** The CLI scan + index + exclusion-config pipeline works and has been run against real folders. UI is not built yet.
+
+- [x] Phase 0 — CLI scan, SQLite index, exclusion config
+- [ ] Phase 1 — UI: sortable/filterable table view
+- [ ] Phase 2 — disk-usage treemap, mark-reviewed/dismiss
+- [ ] Phase 3 — on-demand duplicate check (optional, scoped)
+
+See [Solution Overview](../../wiki/Solution-Overview-NEW) for the full design writeup.
+
+## Running it (current phase)
+
+```bash
+python scan.py "C:\Users\you\Desktop"
+```
+
+On first run this creates `atlas_config.json` next to the script with sensible default exclusions (edit it to add your own). Each run updates `atlas_index.db` and prints the 20 oldest-modified files found.
+
+## Tech stack
+
+Python (standard library: `os.scandir`, `sqlite3`) for the scan/index core. UI planned with `pywebview` — chosen over Electron/Tauri because this workload is I/O-bound, not compute-bound, so the priority is shipping a real version, not raw backend performance.
+
+## Platform
+
+Windows-first. Handles OneDrive placeholder files, junctions/symlinks, and protected-folder permission errors without crashing the scan.
+
+## License
+
+MIT
