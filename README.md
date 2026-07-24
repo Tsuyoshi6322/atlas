@@ -2,7 +2,7 @@
 
 [![Static Badge](https://img.shields.io/badge/Solution_Overview-1F6FEB?style=for-the-badge&logo=wikibooks)](../../wiki/Solution-Overview-NEW)
 [![Static Badge](https://img.shields.io/badge/MIT_license-grey?style=for-the-badge&logo=googledocs&logoColor=white&labelColor=green)](\LICENSE)
-[![Static Badge](https://img.shields.io/badge/Windows-357EC7?style=for-the-badge&logo=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AWindows_icon_logo.png&logoColor=white&label=platform)]()
+[![Static Badge](https://img.shields.io/badge/Windows-357EC7?style=for-the-badge&logo=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AWindows_icon_logo.png&logoColor=white&label=platform)](https://github.com/Tsuyoshi6322/atlas#platform)
 
 A local, read-only tool that scans your folders and gives you one honest, sortable view of everything in them - including the files you've forgotten exist.
 - No auto-cleanup. 
