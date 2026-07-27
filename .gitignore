@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 atlas_index.db
+atlas_config.json
+*.egg-info
 
 # User-specific files
 *.rsuser

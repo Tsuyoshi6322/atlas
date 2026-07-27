@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]              # plumbing — set once, forget
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas"
+version = "0.1.0"
+description = "Read-only local file inventory tool for Windows"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+
+dependencies = [
+    "pywebview>=5.0",                       # runtime need — ships with the app
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",                          # dev-only — never ships
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]                             # "look in src/ for real packages"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]                       # pytest config, namespaced under [tool.*]
