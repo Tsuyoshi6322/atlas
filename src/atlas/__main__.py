@@ -1,4 +1,5 @@
 import sys
+from datetime           import datetime
 
 from atlas.config       import load_config
 from atlas.db           import get_connection
@@ -11,6 +12,9 @@ def main(root_folder: str = None):
     config = load_config()
     roots = [root_folder] if root_folder else config.get("root_folders", ["."])
     oldest_limit = config.get("oldest_files_limit", 30)
+
+    def format_epoch(timestamp: int) -> str:
+        return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
 
     rules = ExclusionRules(config)
     conn = get_connection()
@@ -28,7 +32,7 @@ def main(root_folder: str = None):
     print(f"\nTop {oldest_limit} oldest-modified files (likely forgotten):")
     for row in oldest_files(conn, oldest_limit):
         name, root, path, folder, extension, size_bytes, modified_at, created_at, scanned_at = row
-        print(f"{name} | {path} | {size_bytes}B | modified={modified_at} | created={created_at}")
+        print(f"{name} | {path} | {size_bytes}B | modified={format_epoch(modified_at)} | created={format_epoch(created_at)}")
 
 
 if __name__ == "__main__":
