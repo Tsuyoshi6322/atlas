@@ -1,14 +1,16 @@
 import sys
 
-from atlas.config import load_config
-from atlas.exclusions import ExclusionRules
-from atlas.scanner import scan_folder
-from atlas.db import get_connection
-from atlas.indexer import upsert_files, oldest_files
+from atlas.config       import load_config
+from atlas.db           import get_connection
+from atlas.exclusions   import ExclusionRules
+from atlas.indexer      import upsert_files, oldest_files
+from atlas.scanner      import scan_folder
 
 
-def main(root_folder = "."):
+def main(root_folder: str = None):
     config = load_config()
+    root_folder = root_folder or config.get("root_folder", ".")
+
     rules = ExclusionRules(config)
     conn = get_connection()
 
@@ -25,4 +27,5 @@ def main(root_folder = "."):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else ".")
+    cli_arg = sys.argv[1] if len(sys.argv) > 1 else None
+    main(cli_arg)

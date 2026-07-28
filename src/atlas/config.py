@@ -8,9 +8,11 @@ import os
 CONFIG_PATH = "atlas_config.json"
 
 DEFAULT_CONFIG = {
+    "root_folder": ".",
     "excluded_folder_names": [
         "node_modules", ".git", "__pycache__",
-        "$RECYCLE.BIN", "System Volume Information"
+        "$RECYCLE.BIN", "System Volume Information",
+        ".vs", "env", ".venv", "venv"
     ],
     "excluded_paths": [
         "C:\\Windows", "C:\\ProgramData",
