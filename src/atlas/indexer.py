@@ -7,8 +7,8 @@ def upsert_files(conn: Connection, file_records: dict, scanned_at: int = None):
     count = 0
 
     query = """
-        INSERT INTO files (root, path, folder, name, extension, size_bytes, modified_at, scanned_at)
-        VALUES (:root, :path, :folder, :name, :extension, :size_bytes, :modified_at, :scanned_at)
+        INSERT INTO files (root, path, folder, name, extension, size_bytes, modified_at, created_at, scanned_at)
+        VALUES (:root, :path, :folder, :name, :extension, :size_bytes, :modified_at, :created_at, :scanned_at)
         ON CONFLICT(path) DO UPDATE SET
             size_bytes  = excluded.size_bytes,
             modified_at = excluded.modified_at,
@@ -27,9 +27,15 @@ def upsert_files(conn: Connection, file_records: dict, scanned_at: int = None):
 def oldest_files(conn: Connection, limit: int = 20):
     query = """
         SELECT 
-            path, 
-            size_bytes, 
-            modified_at 
+            name,
+            root,
+            path,
+            folder,
+            extension,
+            size_bytes,
+            modified_at,
+            created_at,
+            scanned_at
         FROM files 
         ORDER BY modified_at ASC 
         LIMIT ?

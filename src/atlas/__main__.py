@@ -27,7 +27,8 @@ def main(root_folder: str = None):
 
     print(f"\nTop {oldest_limit} oldest-modified files (likely forgotten):")
     for row in oldest_files(conn, oldest_limit):
-        print(row)
+        name, root, path, folder, extension, size_bytes, modified_at, created_at, scanned_at = row
+        print(f"{name} | {path} | {size_bytes}B | modified={modified_at} | created={created_at}")
 
 
 if __name__ == "__main__":

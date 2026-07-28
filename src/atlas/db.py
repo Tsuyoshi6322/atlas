@@ -21,6 +21,7 @@ def init_db(conn: sqlite3.Connection):
             extension TEXT,
             size_bytes INTEGER,
             modified_at INTEGER,
+            created_at INTEGER,
             scanned_at INTEGER
         )
     """)

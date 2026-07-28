@@ -28,6 +28,7 @@ def scan_folder(directory: str, rules: ExclusionRules, skipped_counter: int, roo
                     "extension": Path(entry.name).suffix.lower(),
                     "size_bytes": stat.st_size,
                     "modified_at": int(stat.st_mtime),
+                    "created_at": int(stat.st_birthtime),
                 }
 
         except PermissionError:
