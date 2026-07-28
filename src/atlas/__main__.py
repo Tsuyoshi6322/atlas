@@ -9,20 +9,24 @@ from atlas.scanner      import scan_folder
 
 def main(root_folder: str = None):
     config = load_config()
-    root_folder = root_folder or config.get("root_folder", ".")
+    roots = [root_folder] if root_folder else config.get("root_folders", ["."])
+    oldest_limit = config.get("oldest_files_limit", 30)
 
     rules = ExclusionRules(config)
     conn = get_connection()
 
     skipped = [0]
-    records = scan_folder(root_folder, rules, skipped)
-    count = upsert_files(conn, records)
+    total_count = 0
 
-    print(f"Scanned {count} files from {root_folder}")
+    for root in roots:
+        records = scan_folder(root, rules, skipped)
+        total_count += upsert_files(conn, records)
+
+    print(f"Scanned {total_count} files from {roots}")
     print(f"Skipped {skipped[0]} excluded folders/files")
 
-    print("\nTop 20 oldest-modified files (likely forgotten):")
-    for row in oldest_files(conn):
+    print(f"\nTop {oldest_limit} oldest-modified files (likely forgotten):")
+    for row in oldest_files(conn, oldest_limit):
         print(row)
 
 

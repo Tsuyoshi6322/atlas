@@ -1,5 +1,9 @@
 {
-  "root_folder": ".",
+  "root_folders": [
+    "C:\\",
+    "D:\\"
+  ],
+  "oldest_files_limit": 30,
   "excluded_folder_names": [
     "node_modules",
     ".git",

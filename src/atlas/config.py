@@ -8,7 +8,8 @@ import os
 CONFIG_PATH = "atlas_config.json"
 
 DEFAULT_CONFIG = {
-    "root_folder": ".",
+    "root_folders": ["."],
+    "oldest_files_limit": 30,
     "excluded_folder_names": [
         "node_modules", ".git", "__pycache__",
         "$RECYCLE.BIN", "System Volume Information",

@@ -11,7 +11,7 @@ class ExclusionRules:
         if name.lower() in self.excluded_names:
             return True
         path_lower = path.lower()
-        return any(path_lower.startswith(path) for path in self.excluded_paths)
+        return any(path_lower.startswith(excluded_path) for excluded_path in self.excluded_paths)
 
     def is_file_excluded(self, name: str):
         name_lower = name.lower()

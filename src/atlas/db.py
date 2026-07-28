@@ -14,6 +14,7 @@ def init_db(conn: sqlite3.Connection):
     conn.execute("""
         CREATE TABLE IF NOT EXISTS files (
             id INTEGER PRIMARY KEY,
+            root TEXT NOT NULL,
             path TEXT UNIQUE NOT NULL,
             folder TEXT,
             name TEXT,

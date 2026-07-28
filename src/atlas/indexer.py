@@ -7,8 +7,8 @@ def upsert_files(conn: Connection, file_records: dict, scanned_at: int = None):
     count = 0
 
     query = """
-        INSERT INTO files (path, folder, name, extension, size_bytes, modified_at, scanned_at)
-        VALUES (:path, :folder, :name, :extension, :size_bytes, :modified_at, :scanned_at)
+        INSERT INTO files (root, path, folder, name, extension, size_bytes, modified_at, scanned_at)
+        VALUES (:root, :path, :folder, :name, :extension, :size_bytes, :modified_at, :scanned_at)
         ON CONFLICT(path) DO UPDATE SET
             size_bytes  = excluded.size_bytes,
             modified_at = excluded.modified_at,
